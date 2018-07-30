@@ -1,5 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
-
 // Page load starts with focus on name input
 $('#name').focus();
 
@@ -16,7 +14,6 @@ function createInput () {
 }
 
 $('.basic').append(createInput);
-$('#job').hide();
 
 // Acknowledges the "other" job role
 $("#title").on("change", function () {
@@ -27,4 +24,5 @@ $("#title").on("change", function () {
   }
 });
 
-})
+$("fieldset").first().append(createInput);
+$('#job').hide();
