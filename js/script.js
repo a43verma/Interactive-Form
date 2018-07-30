@@ -81,6 +81,13 @@ function activityRegistration () {
   $('.activities').on("change", function () {
     // constantly resets the total to 0
     total = 0;
+
+    // Resets disabled elements
+    $("[name*='express']").attr("disabled", false);
+    $("[name*='node']").attr("disabled", false);
+    $("[name*='js-frameworks']").attr("disabled", false);
+    $("[name*='js-libs']").attr("disabled", false);
+
     // if main conference is checked
     if ($("[name*='all']").prop("checked")) {
       total += 200;
@@ -88,18 +95,22 @@ function activityRegistration () {
     // if Javascript Frameworks is checked
     if ($("[name*='js-frameworks']").prop("checked")) {
       total += 100;
+      $("[name*='express']").attr("disabled", true);
     }
     // if JavaScript Libraries is checked
     if ($("[name*='js-libs']").prop("checked")) {
       total += 100;
+      $("[name*='node']").attr("disabled", true);
     }
     // if Express Workshop is checked
     if ($("[name*='express']").prop("checked")) {
       total += 100;
+      $("[name*='js-frameworks']").attr("disabled", true);
     }
     // if node.js workshop is checked
     if ($("[name*='node']").prop("checked")) {
       total += 100;
+      $("[name*='js-libs']").attr("disabled", true);
     }
     // if build tools workshop is checked
     if ($("[name*='build-tools']").prop("checked")) {
