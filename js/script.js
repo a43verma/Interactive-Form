@@ -34,7 +34,7 @@ function otherJobRole () {
 function tShirtInfo () {
   $('#design').on("change", function () {
     if (this.value === "js puns") {
-      console.log('a');
+      $('#color option').eq(0).attr('selected', true);
       for (let i = 0; i < 3; i ++) {
         $('#color option').eq(i).show();
       }
@@ -42,12 +42,17 @@ function tShirtInfo () {
         $('#color option').eq(i).hide();
       }
     } else if (this.value === "heart js") {
-      console.log('b')
+      $('#color option').eq(3).attr('selected', true);
       for (let i = 0; i < 3; i ++) {
         $('#color option').eq(i).hide();
       }
       for (let i = 3; i < 6; i ++) {
         $('#color option').eq(i).show();
+      }
+    } else {
+      for (let i = 0; i < 6; i ++) {
+        $('#color option').eq(i).show();
+        $('#color option').eq(0).attr('selected', true);
       }
     }
   })
