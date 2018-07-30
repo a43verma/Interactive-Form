@@ -31,24 +31,37 @@ function otherJobRole () {
   });
 }
 
+// updates color drop down based on t-shirt theme
 function tShirtInfo () {
   $('#design').on("change", function () {
+
+    // If js puns is selected
     if (this.value === "js puns") {
+      // Auto select cornflowerblue option
       $('#color option').eq(0).attr('selected', true);
+      // Loops to show first three options
       for (let i = 0; i < 3; i ++) {
         $('#color option').eq(i).show();
       }
+      // Loops to hide the last 3 options
       for (let i = 3; i < 6; i ++) {
         $('#color option').eq(i).hide();
       }
+
+      // If I heart JS is selected
     } else if (this.value === "heart js") {
+      // Auto select the tomato option
       $('#color option').eq(3).attr('selected', true);
+      // Loops to hide the first 3 options
       for (let i = 0; i < 3; i ++) {
         $('#color option').eq(i).hide();
       }
+      // Loops to show the last three options
       for (let i = 3; i < 6; i ++) {
         $('#color option').eq(i).show();
       }
+
+      // show all the options
     } else {
       for (let i = 0; i < 6; i ++) {
         $('#color option').eq(i).show();
@@ -56,27 +69,6 @@ function tShirtInfo () {
       }
     }
   })
-
-  // <div>
-  //   <label for="design">Design:</label>
-  //   <select id="design" name="user_design">
-  //     <option>Select Theme</option>
-  //     <option value="js puns">Theme - JS Puns</option>
-  //     <option value="heart js">Theme - I &#9829; JS</option>
-  //   </select>
-  // </div>
-  //
-  // <div id="colors-js-puns" class="">
-  //   <label for="color">Color:</label>
-  //   <select id="color">
-  //     <option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option>
-  //     <option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option>
-  //     <option value="gold">Gold (JS Puns shirt only)</option>
-  //     <option value="tomato">Tomato (I &#9829; JS shirt only)</option>
-  //     <option value="steelblue">Steel Blue (I &#9829; JS shirt only)</option>
-  //     <option value="dimgrey">Dim Grey (I &#9829; JS shirt only)</option>
-  //   </select>
-  // </div>
 }
 
 // Function Calls
