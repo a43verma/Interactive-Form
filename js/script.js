@@ -33,10 +33,14 @@ function otherJobRole () {
 
 // updates color drop down based on t-shirt theme
 function tShirtInfo () {
-  $('#design').on("change", function () {
+  // Hides the color dropdown menu
+  $('#colors-js-puns').hide();
 
+  $('#design').on("change", function () {
     // If js puns is selected
     if (this.value === "js puns") {
+      // reveals the color dropdown menu
+      $('#colors-js-puns').show();
       // Auto select cornflowerblue option
       $('#color option').eq(0).attr('selected', true);
       // Loops to show first three options
@@ -50,6 +54,8 @@ function tShirtInfo () {
 
       // If I heart JS is selected
     } else if (this.value === "heart js") {
+      // reveals the color dropdown menu
+      $('#colors-js-puns').show();
       // Auto select the tomato option
       $('#color option').eq(3).attr('selected', true);
       // Loops to hide the first 3 options
@@ -63,14 +69,22 @@ function tShirtInfo () {
 
       // show all the options
     } else {
-      for (let i = 0; i < 6; i ++) {
-        $('#color option').eq(i).show();
-        $('#color option').eq(0).attr('selected', true);
-      }
+      $('#colors-js-puns').hide();
     }
   })
 }
 
+// <div id="colors-js-puns" class="">
+//   <label for="color">Color:</label>
+//   <select id="color">
+//     <option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option>
+//     <option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option>
+//     <option value="gold">Gold (JS Puns shirt only)</option>
+//     <option value="tomato">Tomato (I &#9829; JS shirt only)</option>
+//     <option value="steelblue">Steel Blue (I &#9829; JS shirt only)</option>
+//     <option value="dimgrey">Dim Grey (I &#9829; JS shirt only)</option>
+//   </select>
+// </div>
 // Function Calls
 otherJobRole();
 tShirtInfo();
