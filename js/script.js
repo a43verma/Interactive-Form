@@ -74,17 +74,57 @@ function tShirtInfo () {
   })
 }
 
-// <div id="colors-js-puns" class="">
-//   <label for="color">Color:</label>
-//   <select id="color">
-//     <option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option>
-//     <option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option>
-//     <option value="gold">Gold (JS Puns shirt only)</option>
-//     <option value="tomato">Tomato (I &#9829; JS shirt only)</option>
-//     <option value="steelblue">Steel Blue (I &#9829; JS shirt only)</option>
-//     <option value="dimgrey">Dim Grey (I &#9829; JS shirt only)</option>
-//   </select>
-// </div>
+function activityRegistration () {
+  // counts the total cost of the workshops
+  let total = 0;
+
+  $('.activities').on("change", function () {
+    // constantly resets the total to 0
+    total = 0;
+    // if main conference is checked
+    if ($("[name*='all']").prop("checked")) {
+      total += 200;
+    }
+    // if Javascript Frameworks is checked
+    if ($("[name*='js-frameworks']").prop("checked")) {
+      total += 100;
+    }
+    // if JavaScript Libraries is checked
+    if ($("[name*='js-libs']").prop("checked")) {
+      total += 100;
+    }
+    // if Express Workshop is checked
+    if ($("[name*='express']").prop("checked")) {
+      total += 100;
+    }
+    // if node.js workshop is checked
+    if ($("[name*='node']").prop("checked")) {
+      total += 100;
+    }
+    // if build tools workshop is checked
+    if ($("[name*='build-tools']").prop("checked")) {
+      total += 100;
+    }
+    // if npm workshop is checked
+    if ($("[name*='npm']").prop("checked")) {
+      total += 100;
+    }
+    console.log(total);
+  })
+}
+// <fieldset class="activities">
+//   <legend>Register for Activities</legend>
+//   <label><input type="checkbox" name="all"> Main Conference — $200</label>
+//   <label><input type="checkbox" name="js-frameworks"> JavaScript Frameworks Workshop — Tuesday 9am-12pm, $100</label>
+//   <label><input type="checkbox" name="js-libs"> JavaScript Libraries Workshop — Tuesday 1pm-4pm, $100</label>
+//   <label><input type="checkbox" name="express"> Express Workshop — Tuesday 9am-12pm, $100</label>
+//   <label><input type="checkbox" name="node"> Node.js Workshop — Tuesday 1pm-4pm, $100</label>
+//   <label><input type="checkbox" name="build-tools"> Build tools Workshop — Wednesday 9am-12pm, $100</label>
+//   <label><input type="checkbox" name="npm"> npm Workshop — Wednesday 1pm-4pm, $100</label>
+//
+// </fieldset>
+
 // Function Calls
 otherJobRole();
 tShirtInfo();
+activityRegistration();
