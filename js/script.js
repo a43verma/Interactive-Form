@@ -22,7 +22,7 @@ function otherJobRole () {
   $('#job').hide();
 
   // Acknowledges the "other" job role
-  $("#title").on("change", function () {
+  $('#title').on("change", function () {
     if (this.value === "other") {
       $('#job').show();
     } else {
@@ -31,5 +31,49 @@ function otherJobRole () {
   });
 }
 
+function tShirtInfo () {
+  $('#design').on("change", function () {
+    if (this.value === "js puns") {
+      console.log('a');
+      for (let i = 0; i < 3; i ++) {
+        $('#color option').eq(i).show();
+      }
+      for (let i = 3; i < 6; i ++) {
+        $('#color option').eq(i).hide();
+      }
+    } else if (this.value === "heart js") {
+      console.log('b')
+      for (let i = 0; i < 3; i ++) {
+        $('#color option').eq(i).hide();
+      }
+      for (let i = 3; i < 6; i ++) {
+        $('#color option').eq(i).show();
+      }
+    }
+  })
+
+  // <div>
+  //   <label for="design">Design:</label>
+  //   <select id="design" name="user_design">
+  //     <option>Select Theme</option>
+  //     <option value="js puns">Theme - JS Puns</option>
+  //     <option value="heart js">Theme - I &#9829; JS</option>
+  //   </select>
+  // </div>
+  //
+  // <div id="colors-js-puns" class="">
+  //   <label for="color">Color:</label>
+  //   <select id="color">
+  //     <option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option>
+  //     <option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option>
+  //     <option value="gold">Gold (JS Puns shirt only)</option>
+  //     <option value="tomato">Tomato (I &#9829; JS shirt only)</option>
+  //     <option value="steelblue">Steel Blue (I &#9829; JS shirt only)</option>
+  //     <option value="dimgrey">Dim Grey (I &#9829; JS shirt only)</option>
+  //   </select>
+  // </div>
+}
+
 // Function Calls
 otherJobRole();
+tShirtInfo();
