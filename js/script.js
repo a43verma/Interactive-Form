@@ -13,16 +13,23 @@ function createInput () {
   return newLi;
 }
 
-$('.basic').append(createInput);
+// Creates an input for the other job role
+function otherJobRole () {
+  // Appends the input field to Basic Info
+  $("fieldset").first().append(createInput);
 
-// Acknowledges the "other" job role
-$("#title").on("change", function () {
-  if (this.value === "other") {
-    $('#job').show();
-  } else {
-    $('#job').hide();
-  }
-});
+  //Hides the appended input
+  $('#job').hide();
 
-$("fieldset").first().append(createInput);
-$('#job').hide();
+  // Acknowledges the "other" job role
+  $("#title").on("change", function () {
+    if (this.value === "other") {
+      $('#job').show();
+    } else {
+      $('#job').hide();
+    }
+  });
+}
+
+// Function Calls
+otherJobRole();
