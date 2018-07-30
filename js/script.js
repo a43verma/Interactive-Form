@@ -74,6 +74,7 @@ function tShirtInfo () {
   })
 }
 
+// Create a total heading
 function createTotal () {
   const heading = document.createElement('h3');
   $(heading).text('Total: $0.00');
@@ -81,21 +82,30 @@ function createTotal () {
   $('.activities').append(heading);
 }
 
+// Resets disabled elements
+function resetDisabled () {
+  $("[name*='express']").attr("disabled", false);
+  $("[name*='node']").attr("disabled", false);
+  $("[name*='js-frameworks']").attr("disabled", false);
+  $("[name*='js-libs']").attr("disabled", false);
+}
+
+// Reverts colors of disabled elements
+function resetColors () {
+  $("[name*='express']").closest('label').css('color', 'black');
+  $("[name*='node']").closest('label').css('color', 'black');
+  $("[name*='js-frameworks']").closest('label').css('color', 'black');
+  $("[name*='js-libs']").closest('label').css('color', 'black');
+}
 // updates all the activity criteria
 function activityRegistration () {
   // counts the total cost of the workshops
   let total = 0;
-
   $('.activities').on("change", function () {
     // constantly resets the total to 0
     total = 0;
-
-    // Resets disabled elements
-    $("[name*='express']").attr("disabled", false);
-    $("[name*='node']").attr("disabled", false);
-    $("[name*='js-frameworks']").attr("disabled", false);
-    $("[name*='js-libs']").attr("disabled", false);
-
+    resetDisabled();
+    resetColors();
     // if main conference is checked
     if ($("[name*='all']").prop("checked")) {
       total += 200;
@@ -104,21 +114,25 @@ function activityRegistration () {
     if ($("[name*='js-frameworks']").prop("checked")) {
       total += 100;
       $("[name*='express']").attr("disabled", true);
+      $("[name*='express']").closest('label').css('color', 'grey');
     }
     // if JavaScript Libraries is checked
     if ($("[name*='js-libs']").prop("checked")) {
       total += 100;
       $("[name*='node']").attr("disabled", true);
+      $("[name*='node']").closest('label').css('color', 'grey');
     }
     // if Express Workshop is checked
     if ($("[name*='express']").prop("checked")) {
       total += 100;
       $("[name*='js-frameworks']").attr("disabled", true);
+      $("[name*='js-frameworks']").closest('label').css('color', 'grey');
     }
     // if node.js workshop is checked
     if ($("[name*='node']").prop("checked")) {
       total += 100;
       $("[name*='js-libs']").attr("disabled", true);
+      $("[name*='js-libs']").closest('label').css('color', 'grey');
     }
     // if build tools workshop is checked
     if ($("[name*='build-tools']").prop("checked")) {
@@ -128,6 +142,7 @@ function activityRegistration () {
     if ($("[name*='npm']").prop("checked")) {
       total += 100;
     }
+    // Updates the total heading with the current total
     $('.total').text('Total: $' + total + '.00');
   })
 }
