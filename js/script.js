@@ -74,6 +74,14 @@ function tShirtInfo () {
   })
 }
 
+function createTotal () {
+  const heading = document.createElement('h3');
+  $(heading).text('Total: $0.00');
+  $(heading).addClass('total');
+  $('.activities').append(heading);
+}
+
+// updates all the activity criteria
 function activityRegistration () {
   // counts the total cost of the workshops
   let total = 0;
@@ -120,22 +128,12 @@ function activityRegistration () {
     if ($("[name*='npm']").prop("checked")) {
       total += 100;
     }
-    console.log(total);
+    $('.total').text('Total: $' + total + '.00');
   })
 }
-// <fieldset class="activities">
-//   <legend>Register for Activities</legend>
-//   <label><input type="checkbox" name="all"> Main Conference — $200</label>
-//   <label><input type="checkbox" name="js-frameworks"> JavaScript Frameworks Workshop — Tuesday 9am-12pm, $100</label>
-//   <label><input type="checkbox" name="js-libs"> JavaScript Libraries Workshop — Tuesday 1pm-4pm, $100</label>
-//   <label><input type="checkbox" name="express"> Express Workshop — Tuesday 9am-12pm, $100</label>
-//   <label><input type="checkbox" name="node"> Node.js Workshop — Tuesday 1pm-4pm, $100</label>
-//   <label><input type="checkbox" name="build-tools"> Build tools Workshop — Wednesday 9am-12pm, $100</label>
-//   <label><input type="checkbox" name="npm"> npm Workshop — Wednesday 1pm-4pm, $100</label>
-//
-// </fieldset>
 
 // Function Calls
 otherJobRole();
 tShirtInfo();
 activityRegistration();
+createTotal();
