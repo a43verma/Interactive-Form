@@ -35,8 +35,12 @@ function otherJobRole () {
 function tShirtInfo () {
   // Hides the color dropdown menu
   $('#colors-js-puns').hide();
-  // Resets color options so that they always change selection (Bug Fix)
+
   $('#design').on("change", function () {
+    // Hides the select theme option for a more clean dropdown menu
+    $('#design option').eq(0).hide();
+
+    // Resets color options so that they always change selection (Bug Fix)
     for (let i = 0; i < 6; i ++) {
       $('#color option').eq(i).attr('selected', false);
     }
@@ -151,17 +155,33 @@ function activityRegistration () {
   })
 }
 
-// function paymentInfo () {
-//   $('#credit-card').next().hide();
-//   $('#credit-card').next().next().hide();
-//   $('#payment').on('change', function() {
-//
-//   })
-// }
+function paymentInfo () {
+  $('#credit-card').next().hide();
+  $('#credit-card').next().next().hide();
+  $('#payment option').eq(1).attr('selected', true);
+  $('#payment option').eq(0).hide();
+  $('#payment').on('change', function() {
+    if (this.value === 'credit card') {
+      $('#credit-card').show();
+      $('#credit-card').next().hide();
+      $('#credit-card').next().next().hide();
+    }
+    if (this.value === 'paypal') {
+      $('#credit-card').hide();
+      $('#credit-card').next().show();
+      $('#credit-card').next().next().hide();
+    }
+    if (this.value === 'bitcoin') {
+      $('#credit-card').hide();
+      $('#credit-card').next().hide();
+      $('#credit-card').next().next().show();
+    }
+  })
+}
 
 // Function Calls
 otherJobRole();
 tShirtInfo();
 activityRegistration();
 createTotal();
-// paymentInfo();
+paymentInfo();
