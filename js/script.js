@@ -35,14 +35,16 @@ function otherJobRole () {
 function tShirtInfo () {
   // Hides the color dropdown menu
   $('#colors-js-puns').hide();
-
+  // Resets color options so that they always change selection (Bug Fix)
   $('#design').on("change", function () {
+    for (let i = 0; i < 6; i ++) {
+      $('#color option').eq(i).attr('selected', false);
+    }
+
     // If js puns is selected
     if (this.value === "js puns") {
       // reveals the color dropdown menu
       $('#colors-js-puns').show();
-      // Auto select cornflowerblue option
-      $('#color option').eq(0).attr('selected', true);
       // Loops to show first three options
       for (let i = 0; i < 3; i ++) {
         $('#color option').eq(i).show();
@@ -51,13 +53,13 @@ function tShirtInfo () {
       for (let i = 3; i < 6; i ++) {
         $('#color option').eq(i).hide();
       }
+      // Auto select cornflowerblue option
+      $('#color option').eq(0).attr('selected', true);
 
       // If I heart JS is selected
     } else if (this.value === "heart js") {
       // reveals the color dropdown menu
       $('#colors-js-puns').show();
-      // Auto select the tomato option
-      $('#color option').eq(3).attr('selected', true);
       // Loops to hide the first 3 options
       for (let i = 0; i < 3; i ++) {
         $('#color option').eq(i).hide();
@@ -66,6 +68,8 @@ function tShirtInfo () {
       for (let i = 3; i < 6; i ++) {
         $('#color option').eq(i).show();
       }
+      // Auto select the tomato option
+      $('#color option').eq(3).attr('selected', true);
 
       // show all the options
     } else {
@@ -147,8 +151,17 @@ function activityRegistration () {
   })
 }
 
+// function paymentInfo () {
+//   $('#credit-card').next().hide();
+//   $('#credit-card').next().next().hide();
+//   $('#payment').on('change', function() {
+//
+//   })
+// }
+
 // Function Calls
 otherJobRole();
 tShirtInfo();
 activityRegistration();
 createTotal();
+// paymentInfo();
