@@ -155,11 +155,19 @@ function activityRegistration () {
   })
 }
 
+//
 function paymentInfo () {
+  // Hides the other payment options initially
   $('#credit-card').next().hide();
   $('#credit-card').next().next().hide();
+
+  // Selects credit card option as default
   $('#payment option').eq(1).attr('selected', true);
+
+  // hides the select payment option
   $('#payment option').eq(0).hide();
+
+  // event handler for the changing payment method
   $('#payment').on('change', function() {
     if (this.value === 'credit card') {
       $('#credit-card').show();
