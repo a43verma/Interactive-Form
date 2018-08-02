@@ -1,3 +1,6 @@
+const name = document.getElementById('name');
+const email = document.getElementById('mail');
+
 // Page load starts with focus on name input
 $('#name').focus();
 
@@ -155,7 +158,7 @@ function activityRegistration () {
   })
 }
 
-//
+// Shows the correct payment input field
 function paymentInfo () {
   // Hides the other payment options initially
   $('#credit-card').next().hide();
@@ -187,9 +190,71 @@ function paymentInfo () {
   })
 }
 
+// prevents the entire form from submitting
+$('form').submit(function (e) {
+  e.preventDefault();
+});
+
+// Creates error message
+function createErrorMessage (msg, theClass) {
+  let newHeading = document.createElement('p');
+  $(newHeading).addClass(theClass);
+  $(newHeading).addClass('error');
+  $(newHeading).text(msg);
+  return newHeading;
+}
+
+// creates all the error messages on the page
+function createAllErrorMessages () {
+  // Name error
+  newHeading = createErrorMessage('Sorry, name field is required.', 'nameError');
+  $('fieldset label').eq(0).after(newHeading);
+
+  // Email error for invalid email
+  newHeading = createErrorMessage('Sorry, this is not a valid email.', 'emailInvalid');
+  $('fieldset label').eq(1).after(newHeading);
+
+  // Email error for empty email
+  newHeading = createErrorMessage('Sorry, email field is required.', 'emailError');
+  $('fieldset label').eq(1).after(newHeading);
+
+  // Activity error
+  newHeading = createErrorMessage('Sorry, please choose at least 1 activity.', 'activityError');
+  $('.activities legend').after(newHeading);
+
+  // Credit card error
+  newHeading = createErrorMessage('This is not a valid credit card number.');
+  $('.credit-card div').eq(0).append(newHeading);
+
+  // Zip code error
+  newHeading = createErrorMessage('This is not a valid Zip code.');
+  $('.credit-card div').eq(1).append(newHeading);
+
+  // CVV error
+  newHeading = createErrorMessage('This is not a valid CVV.');
+  $('.credit-card div').eq(2).append(newHeading);
+
+  // Styles the error messages
+  $('.error').css('color', 'red');
+
+  // Hides all error messages on the page
+  $('.error').hide();
+}
+
+
+// function formRequirements () {
+//   if ($('#name').val() == "") {
+//     nameErrorMessage('Sorry, name field is required.');
+//     $('.error').css('color', 'red');
+//     $('#name').css('border-color', 'red');
+//     $('fieldset label').eq(0).css('color', 'red');
+//   }
+// }
+
 // Function Calls
 otherJobRole();
 tShirtInfo();
 activityRegistration();
 createTotal();
 paymentInfo();
+createAllErrorMessages();
