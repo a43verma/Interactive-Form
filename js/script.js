@@ -20,7 +20,7 @@ function createAllErrorMessages () {
   newHeading = createErrorMessage('Sorry, name field is required.', 'nameError');
   $('fieldset label').eq(0).after(newHeading);
   // Name error for numbers
-  newHeading = createErrorMessage('Sorry, name field cannot contain numbers.', 'nameInvalid');
+  newHeading = createErrorMessage('Sorry, this is not a valid name.', 'nameInvalid');
   $('fieldset label').eq(0).after(newHeading);
   // Email error for invalid email
   newHeading = createErrorMessage('Sorry, this is not a valid email.', 'emailInvalid');
@@ -31,14 +31,23 @@ function createAllErrorMessages () {
   // Activity error
   newHeading = createErrorMessage('Sorry, please choose at least 1 activity.', 'activityError');
   $('.activities legend').after(newHeading);
-  // Credit card error
-  newHeading = createErrorMessage('This is not a valid credit card number.');
+  // Credit card Error
+  newHeading = createErrorMessage('Credit card field is required.', 'creditError');
+  $('.credit-card div').eq(0).append(newHeading);
+  // Credit card invalid
+  newHeading = createErrorMessage('This is not a valid credit card number.', 'creditInvalid');
   $('.credit-card div').eq(0).append(newHeading);
   // Zip code error
-  newHeading = createErrorMessage('This is not a valid Zip code.');
+  newHeading = createErrorMessage('Zip code is required field.', 'zipError');
+  $('.credit-card div').eq(1).append(newHeading);
+  // Zip code error
+  newHeading = createErrorMessage('This is not a valid Zip code.', 'zipInvalid');
   $('.credit-card div').eq(1).append(newHeading);
   // CVV error
-  newHeading = createErrorMessage('This is not a valid CVV.');
+  newHeading = createErrorMessage('CVV is a requried field.', 'cvvError');
+  $('.credit-card div').eq(2).append(newHeading);
+  // CVV error
+  newHeading = createErrorMessage('This is not a valid CVV.', 'cvvInvalid');
   $('.credit-card div').eq(2).append(newHeading);
   // Styles the error messages
   $('.error').css('color', 'red');
@@ -247,24 +256,28 @@ function nameRequirements () {
     $('.nameInvalid').hide();
     $('#name').css('border', '2px solid red');
     $('fieldset label').eq(0).css('color', 'red');
+    return false;
     // if the field has a number in it
-  } else if (hasNumber.test($('#name').val())) {
+  } else if (/\d/.test($('#name').val())) {
     $('.nameError').hide();
     $('.nameInvalid').show();
     $('#name').css('border', '2px solid red');
     $('fieldset label').eq(0).css('color', 'red');
+    return false;
     // if the input field is correct
   } else if (/^[A-Za-z\s]+$/.test($('#name').val())) {
     $('.nameError').hide();
     $('.nameInvalid').hide();
     $('#name').css('border', 'none');
     $('fieldset label').eq(0).css('color', 'black');
+    return true;
     // just in case of symbols or other things
   } else {
     $('.nameError').hide();
     $('.nameInvalid').show();
     $('#name').css('border', '2px solid red');
     $('fieldset label').eq(0).css('color', 'red');
+    return false;
   }
 }
 
@@ -276,6 +289,7 @@ function emailRequirements() {
     $('.emailInvalid').hide();
     $('#mail').css('border', '2px solid red');
     $('fieldset label').eq(1).css('color', 'red');
+    return false;
   }
   // if the field is correct
   if (isEmail.test($('#mail').val())) {
@@ -283,12 +297,14 @@ function emailRequirements() {
     $('.emailInvalid').hide();
     $('#mail').css('border', 'none');
     $('fieldset label').eq(1).css('color', 'black');
+    return true;
     // if the field isn't correct
   } else {
     $('.emailError').hide();
     $('.emailInvalid').show();
     $('#mail').css('border', '2px solid red');
     $('fieldset label').eq(1).css('color', 'red');
+    return false;
   }
 }
 
@@ -297,9 +313,11 @@ function checkboxRequirements() {
   if ($('input:checked').length > 0) {
     $('.activityError').hide();
     $('.activities legend').css('color', '#184f68');
+    return true;
   } else {
     $('.activityError').show();
     $('.activities legend').css('color', 'red');
+    return false;
   }
 }
 
@@ -309,10 +327,76 @@ function checkboxError () {
   $('input:checkbox').on('change', function (e) {
     checkboxRequirements();
   })
+  return checkboxRequirements();
 }
 
 function creditCardNumberRequirements () {
+  // checks for 13 or more and 16 or less.
+  if ($.isNumeric($('#cc-num').val()) && $('#cc-num').val().length >= 13 && $('#cc-num').val().length <= 16) {
+    $('.creditInvalid').hide();
+    $('.creditError').hide();
+    $('#cc-num').css('border', 'none');
+    $('#cc-num').prev().css('color', 'black');
+    return true;
+  } else if ($('#cc-num').val() == "") {
+    $('.creditInvalid').hide();
+    $('.creditError').show();
+    $('#cc-num').css('border', '2px solid red');
+    $('#cc-num').prev().css('color', 'red');
+    return false;
+  } else {
+    $('.creditInvalid').show();
+    $('.creditError').hide();
+    $('#cc-num').css('border', '2px solid red');
+    $('#cc-num').prev().css('color', 'red');
+    return false;
+  }
+}
 
+// checks for 5 digits
+function zipCodeRequirements () {
+  if ($.isNumeric($('#zip').val()) && $('#zip').val().length == 5) {
+    $('.zipInvalid').hide();
+    $('.zipError').hide();
+    $('#zip').css('border', 'none');
+    $('#zip').prev().css('color', 'black');
+    return true;
+  } else if ($('#zip').val() == "") {
+    $('.zipInvalid').hide();
+    $('.zipError').show();
+    $('#zip').css('border', '2px solid red');
+    $('#zip').prev().css('color', 'red');
+    return false;
+  } else {
+    $('.zipInvalid').show();
+    $('.zipError').hide();
+    $('#zip').css('border', '2px solid red');
+    $('#zip').prev().css('color', 'red');
+    return false;
+  }
+}
+
+// checks for 3 digits only
+function cvvRequirements () {
+  if ($.isNumeric($('#cvv').val()) && $('#cvv').val().length == 3) {
+    $('.cvvInvalid').hide();
+    $('.cvvError').hide();
+    $('#cvv').css('border', 'none');
+    $('#cvv').prev().css('color', 'black');
+    return true;
+  } else if ($('#cvv').val() == "") {
+    $('.cvvInvalid').hide();
+    $('.cvvError').show();
+    $('#cvv').css('border', '2px solid red');
+    $('#cvv').prev().css('color', 'red');
+    return false;
+  } else {
+    $('.cvvInvalid').show();
+    $('.cvvError').hide();
+    $('#cvv').css('border', '2px solid red');
+    $('#cvv').prev().css('color', 'red');
+    return false;
+  }
 }
 
 
@@ -325,10 +409,42 @@ $('form').on('submit', function (e) {
   nameRequirements();
   emailRequirements();
   checkboxError();
+  if ($('#payment :selected').val() == 'credit card') {
+    creditCardNumberRequirements();
+    zipCodeRequirements();
+    cvvRequirements();
+  }
+
+  // allow submit to occur
+  // Name is correct
+  if (nameRequirements()) {
+    // Email is correct
+    if (emailRequirements()) {
+      // Checkbox is correct
+      if (checkboxRequirements()) {
+        // If payment is selected then go through credit card requirements
+        if ($('#payment :selected').val() == 'credit card') {
+          if (creditCardNumberRequirements()) {
+            if (zipCodeRequirements()) {
+              if (cvvRequirements()) {
+                $(this).unbind('submit').submit();
+              }
+            }
+          }
+          // If payment field is anything else, allow submit
+        } else {
+          $(this).unbind('submit').submit();
+        }
+      }
+    }
+  }
 })
 
 // checks name input field
 $('#name').on('input', function (e) {
+  nameRequirements();
+})
+$('#name').on('blur', function (e) {
   nameRequirements();
 })
 
@@ -337,6 +453,29 @@ $('#mail').on('blur', function (e) {
   emailRequirements();
 })
 
+// checks the credit card field
+$('#cc-num').on('input', function (e) {
+  creditCardNumberRequirements();
+})
+$('#cc-num').on('blur', function (e) {
+  creditCardNumberRequirements();
+})
+
+// checks the zip code field
+$('#zip').on('input', function (e) {
+  zipCodeRequirements();
+})
+$('#zip').on('blur', function (e) {
+  zipCodeRequirements();
+})
+
+// checks the zip code field
+$('#cvv').on('input', function (e) {
+  cvvRequirements();
+})
+$('#cvv').on('blur', function (e) {
+  cvvRequirements();
+})
 
 
 
