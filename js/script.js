@@ -417,25 +417,13 @@ $('form').on('submit', function (e) {
 
   // allow submit to occur
   // Name is correct
-  if (nameRequirements()) {
-    // Email is correct
-    if (emailRequirements()) {
-      // Checkbox is correct
-      if (checkboxRequirements()) {
-        // If payment is selected then go through credit card requirements
-        if ($('#payment :selected').val() == 'credit card') {
-          if (creditCardNumberRequirements()) {
-            if (zipCodeRequirements()) {
-              if (cvvRequirements()) {
-                $(this).unbind('submit').submit();
-              }
-            }
-          }
-          // If payment field is anything else, allow submit
-        } else {
-          $(this).unbind('submit').submit();
-        }
+  if (nameRequirements() && emailRequirements() && checkboxRequirements()) {
+    if ($('#payment :selected').val() == 'credit card') {
+      if (creditCardNumberRequirements() && zipCodeRequirements() && cvvRequirements()) {
+        $(this).unbind('submit').submit();
       }
+    } else {
+      $(this).unbind('submit').submit();
     }
   }
 })
