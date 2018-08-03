@@ -1,29 +1,67 @@
 const name = document.getElementById('name');
 const email = document.getElementById('mail');
+const hasNumber = /\d/;
+
+////// Initial Page Setup //////
+
+// Creates error message
+function createErrorMessage (msg, theClass) {
+  let newHeading = document.createElement('p');
+  $(newHeading).addClass(theClass);
+  $(newHeading).addClass('error');
+  $(newHeading).text(msg);
+  return newHeading;
+}
+
+// creates all the error messages on the page
+function createAllErrorMessages () {
+  // Name error for empty
+  newHeading = createErrorMessage('Sorry, name field is required.', 'nameError');
+  $('fieldset label').eq(0).after(newHeading);
+  // Name error for numbers
+  newHeading = createErrorMessage('Sorry, name field cannot contain numbers.', 'nameInvalid');
+  $('fieldset label').eq(0).after(newHeading);
+  // Email error for invalid email
+  newHeading = createErrorMessage('Sorry, this is not a valid email.', 'emailInvalid');
+  $('fieldset label').eq(1).after(newHeading);
+  // Email error for empty email
+  newHeading = createErrorMessage('Sorry, email field is required.', 'emailError');
+  $('fieldset label').eq(1).after(newHeading);
+  // Activity error
+  newHeading = createErrorMessage('Sorry, please choose at least 1 activity.', 'activityError');
+  $('.activities legend').after(newHeading);
+  // Credit card error
+  newHeading = createErrorMessage('This is not a valid credit card number.');
+  $('.credit-card div').eq(0).append(newHeading);
+  // Zip code error
+  newHeading = createErrorMessage('This is not a valid Zip code.');
+  $('.credit-card div').eq(1).append(newHeading);
+  // CVV error
+  newHeading = createErrorMessage('This is not a valid CVV.');
+  $('.credit-card div').eq(2).append(newHeading);
+  // Styles the error messages
+  $('.error').css('color', 'red');
+  // Hides all error messages on the page
+  $('.error').hide();
+}
+
+
+
+
+////// Focus on the First Field //////
 
 // Page load starts with focus on name input
 $('#name').focus();
 
-// Creates input field
-function createInput () {
-  const newLi = document.createElement("input");
-  $(newLi).attr({
-    type: 'text',
-    id: 'job',
-    name: 'job_role',
-    placeholder: 'Your job role'
-  })
-  return newLi;
-}
 
-// Creates an input for the other job role
+
+
+////// Job Role Section //////
+
+// Hides and reveals the other job role input
 function otherJobRole () {
-  // Appends the input field to Basic Info
-  $("fieldset").first().append(createInput);
-
   //Hides the appended input
   $('#job').hide();
-
   // Acknowledges the "other" job role
   $('#title').on("change", function () {
     if (this.value === "other") {
@@ -34,20 +72,22 @@ function otherJobRole () {
   });
 }
 
+
+
+
+////// T-Shirt Section //////
+
 // updates color drop down based on t-shirt theme
 function tShirtInfo () {
   // Hides the color dropdown menu
   $('#colors-js-puns').hide();
-
   $('#design').on("change", function () {
     // Hides the select theme option for a more clean dropdown menu
     $('#design option').eq(0).hide();
-
     // Resets color options so that they always change selection (Bug Fix)
     for (let i = 0; i < 6; i ++) {
       $('#color option').eq(i).attr('selected', false);
     }
-
     // If js puns is selected
     if (this.value === "js puns") {
       // reveals the color dropdown menu
@@ -62,7 +102,6 @@ function tShirtInfo () {
       }
       // Auto select cornflowerblue option
       $('#color option').eq(0).attr('selected', true);
-
       // If I heart JS is selected
     } else if (this.value === "heart js") {
       // reveals the color dropdown menu
@@ -77,13 +116,17 @@ function tShirtInfo () {
       }
       // Auto select the tomato option
       $('#color option').eq(3).attr('selected', true);
-
       // show all the options
     } else {
       $('#colors-js-puns').hide();
     }
   })
 }
+
+
+
+
+////// Activity Registration //////
 
 // Create a total heading
 function createTotal () {
@@ -108,6 +151,7 @@ function resetColors () {
   $("[name*='js-frameworks']").closest('label').css('color', 'black');
   $("[name*='js-libs']").closest('label').css('color', 'black');
 }
+
 // updates all the activity criteria
 function activityRegistration () {
   // counts the total cost of the workshops
@@ -158,18 +202,20 @@ function activityRegistration () {
   })
 }
 
+
+
+
+////// Displaying Payment Section //////
+
 // Shows the correct payment input field
 function paymentInfo () {
   // Hides the other payment options initially
   $('#credit-card').next().hide();
   $('#credit-card').next().next().hide();
-
   // Selects credit card option as default
   $('#payment option').eq(1).attr('selected', true);
-
   // hides the select payment option
   $('#payment option').eq(0).hide();
-
   // event handler for the changing payment method
   $('#payment').on('change', function() {
     if (this.value === 'credit card') {
@@ -190,68 +236,53 @@ function paymentInfo () {
   })
 }
 
+////// Form Validation //////
+
 // prevents the entire form from submitting
 $('form').submit(function (e) {
   e.preventDefault();
+  formRequirements();
 });
 
-// Creates error message
-function createErrorMessage (msg, theClass) {
-  let newHeading = document.createElement('p');
-  $(newHeading).addClass(theClass);
-  $(newHeading).addClass('error');
-  $(newHeading).text(msg);
-  return newHeading;
+// The requirements for the name input field
+function nameRequirements () {
+  // if the field is empty
+  if ($('#name').val() == "") {
+    $('.nameError').show();
+    $('.nameInvalid').hide();
+    $('#name').css('border', '2px solid red');
+    $('fieldset label').eq(0).css('color', 'red');
+    // if the field has a number in it
+  } else if (hasNumber.test($('#name').val())) {
+    $('.nameError').hide();
+    $('.nameInvalid').show();
+    $('#name').css('border', '2px solid red');
+    $('fieldset label').eq(0).css('color', 'red');
+    // if the input field is correct
+  } else {
+    $('.nameError').hide();
+    $('.nameInvalid').hide();
+    $('#name').css('border', 'none');
+    $('fieldset label').eq(0).css('color', 'black');
+  }
 }
 
-// creates all the error messages on the page
-function createAllErrorMessages () {
-  // Name error
-  newHeading = createErrorMessage('Sorry, name field is required.', 'nameError');
-  $('fieldset label').eq(0).after(newHeading);
-
-  // Email error for invalid email
-  newHeading = createErrorMessage('Sorry, this is not a valid email.', 'emailInvalid');
-  $('fieldset label').eq(1).after(newHeading);
-
-  // Email error for empty email
-  newHeading = createErrorMessage('Sorry, email field is required.', 'emailError');
-  $('fieldset label').eq(1).after(newHeading);
-
-  // Activity error
-  newHeading = createErrorMessage('Sorry, please choose at least 1 activity.', 'activityError');
-  $('.activities legend').after(newHeading);
-
-  // Credit card error
-  newHeading = createErrorMessage('This is not a valid credit card number.');
-  $('.credit-card div').eq(0).append(newHeading);
-
-  // Zip code error
-  newHeading = createErrorMessage('This is not a valid Zip code.');
-  $('.credit-card div').eq(1).append(newHeading);
-
-  // CVV error
-  newHeading = createErrorMessage('This is not a valid CVV.');
-  $('.credit-card div').eq(2).append(newHeading);
-
-  // Styles the error messages
-  $('.error').css('color', 'red');
-
-  // Hides all error messages on the page
-  $('.error').hide();
+function emailRequirements() {
+  // if the field is empty
+  if ($('#name').val() == "") {
+    $('.emailError').show();
+    $('.emailInvalid').hide();
+    $('#mail').css('border', '2px solid red');
+    $('fieldset label').eq(1).css('color', 'red');
+  }
 }
 
+function formRequirements () {
+nameRequirements();
+emailRequirements();
+}
 
-// function formRequirements () {
-//   if ($('#name').val() == "") {
-//     nameErrorMessage('Sorry, name field is required.');
-//     $('.error').css('color', 'red');
-//     $('#name').css('border-color', 'red');
-//     $('fieldset label').eq(0).css('color', 'red');
-//   }
-// }
-
-// Function Calls
+////// Function Calls //////
 otherJobRole();
 tShirtInfo();
 activityRegistration();
