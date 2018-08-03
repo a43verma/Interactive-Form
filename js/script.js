@@ -1,6 +1,7 @@
 const name = document.getElementById('name');
 const email = document.getElementById('mail');
 const hasNumber = /\d/;
+const isEmail = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 
 ////// Initial Page Setup //////
 
@@ -238,12 +239,6 @@ function paymentInfo () {
 
 ////// Form Validation //////
 
-// prevents the entire form from submitting
-$('form').submit(function (e) {
-  e.preventDefault();
-  formRequirements();
-});
-
 // The requirements for the name input field
 function nameRequirements () {
   // if the field is empty
@@ -259,28 +254,91 @@ function nameRequirements () {
     $('#name').css('border', '2px solid red');
     $('fieldset label').eq(0).css('color', 'red');
     // if the input field is correct
-  } else {
+  } else if (/^[A-Za-z\s]+$/.test($('#name').val())) {
     $('.nameError').hide();
     $('.nameInvalid').hide();
     $('#name').css('border', 'none');
     $('fieldset label').eq(0).css('color', 'black');
+    // just in case of symbols or other things
+  } else {
+    $('.nameError').hide();
+    $('.nameInvalid').show();
+    $('#name').css('border', '2px solid red');
+    $('fieldset label').eq(0).css('color', 'red');
   }
 }
 
+// The requirements for the email input field
 function emailRequirements() {
   // if the field is empty
-  if ($('#name').val() == "") {
+  if ($('#mail').val() == "") {
     $('.emailError').show();
     $('.emailInvalid').hide();
     $('#mail').css('border', '2px solid red');
     $('fieldset label').eq(1).css('color', 'red');
   }
+  // if the field is correct
+  if (isEmail.test($('#mail').val())) {
+    $('.emailError').hide();
+    $('.emailInvalid').hide();
+    $('#mail').css('border', 'none');
+    $('fieldset label').eq(1).css('color', 'black');
+    // if the field isn't correct
+  } else {
+    $('.emailError').hide();
+    $('.emailInvalid').show();
+    $('#mail').css('border', '2px solid red');
+    $('fieldset label').eq(1).css('color', 'red');
+  }
 }
 
-function formRequirements () {
-nameRequirements();
-emailRequirements();
+// Checks if at least one checkbox is checked
+function checkboxRequirements() {
+  if ($('input:checked').length > 0) {
+    $('.activityError').hide();
+    $('.activities legend').css('color', '#184f68');
+  } else {
+    $('.activityError').show();
+    $('.activities legend').css('color', 'red');
+  }
 }
+
+// initiates the checkbox requirements and activates change event handler so the error updates in real time
+function checkboxError () {
+  checkboxRequirements();
+  $('input:checkbox').on('change', function (e) {
+    checkboxRequirements();
+  })
+}
+
+function creditCardNumberRequirements () {
+
+}
+
+
+
+////// Event Handlers for Form Validation //////
+
+// prevents the entire form from submitting
+$('form').on('submit', function (e) {
+  e.preventDefault();
+  nameRequirements();
+  emailRequirements();
+  checkboxError();
+})
+
+// checks name input field
+$('#name').on('input', function (e) {
+  nameRequirements();
+})
+
+// checks the email input field
+$('#mail').on('blur', function (e) {
+  emailRequirements();
+})
+
+
+
 
 ////// Function Calls //////
 otherJobRole();
